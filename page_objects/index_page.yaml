@@ -1,0 +1,30 @@
+adjacency:
+  - goods_category_page
+  - goods_grounding_page
+  - goods_list_page
+
+
+goto_product_grounding:
+  - find: //*[text()="商品管理"]
+    action: click
+  - find: //*[text()="商品上架"]
+    action: click
+  - action: turn
+    page: goods_grounding_page
+
+goto_product_list:
+  - find: //*[text()="商品管理"]
+    action: click
+  - find: //*[text()="商品列表"]
+    action: click
+  - action: turn
+    page: goods_list_page
+
+goto_product_category:
+  - find: //*[text()="商场管理"]
+    action: click
+  - find: //*[text()="商品类目"]
+    action: click
+  - action: turn
+    page: goods_category_page
+

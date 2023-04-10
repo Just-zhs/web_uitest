@@ -1,0 +1,14 @@
+adjacency:
+    - index_page
+
+login:
+  - find: //*[@name='username']
+    action: send_keys
+    text: hogwarts
+  - find: //*[@name='password']
+    action: send_keys
+    text: test12345
+  - find: //*[text()='登录']
+    action: click
+  - action: turn
+    page:

@@ -1,0 +1,26 @@
+adjacency:
+  -
+
+get_product_name:
+  - find: //tr[@class='el-table__row'][1]/td[3]/div
+    action: wait
+  - find: //tr[@class='el-table__row'][1]/td[3]/div
+    action: text
+
+delete_product:
+  - find: //input[@placeholder="请输入商品名称"]
+    action: send_keys
+    text: ${product_name}
+  - find: //*[text()='查找']
+    action: click
+  - find: //*[text()="{product_name}"]/../../td[last()]//*[text()='删除']/..
+    action: wait
+    wait_type: clickable
+  - find: //*[text()="{product_name}"]/../../td[last()]//*[text()='删除']/..
+    action: click
+  - find: //*[text()="删除成功"]
+    action: click
+  - find: //*[text()="{product_name}"]
+    action: wait_not
+  - find: //*[text()="{product_name}"]
+    action: finds

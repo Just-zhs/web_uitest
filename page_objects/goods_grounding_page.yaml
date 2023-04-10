@@ -1,0 +1,20 @@
+adjacency:
+    - goods_list_page
+
+goods_grounding:
+  - find: //*[text()="商品编号"]/..//input
+    action: send_keys
+    text: ${num}
+  - find: //*[text()="商品名称"]/..//input
+    action: send_keys
+    text: ${product_name}
+  - find: //*[text()="市场售价"]/..//input
+    action: send_keys
+    text: ${price}
+  - find: //span[text()='热卖']
+    action: click
+  - action: scroll_to_bottom
+  - find: //span[text()='上架']
+    action: click
+  - action: turn
+    page: goods_list_page

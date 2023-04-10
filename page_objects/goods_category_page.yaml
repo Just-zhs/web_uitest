@@ -26,6 +26,9 @@ get_category_name:
     action: text
 
 delete_goods_category:
+  - find: //*[text()="简介"]
+    action: click
+  - action: scroll
   - find: //*[text()="{category}"]/../../td[last()]//*[text()="删除"]
     action: wait
     type: clickable

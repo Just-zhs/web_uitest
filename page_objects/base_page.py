@@ -48,12 +48,28 @@ class BasePage:
         ele.clear()
         ele.send_keys(text)
 
+    def click_exceptions(self, by, element, max_attmpts=5):
+        def _inner(driver):
+            # 多次点击按钮
+            actual_attmpts = 0
+            while actual_attmpts <= max_attmpts:
+                actual_attmpts += 1
+                try:
+                    driver.find_element(by, element).click()
+                    return True
+                except Exception:
+                    logger.debug("在点击时报错")
+            raise Exception("超出最大点击次数")
+
+        return _inner
+
     def wait(self, locator: tuple, wait_type='', text=''):
         if wait_type == '':
             return WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located(locator))
         elif wait_type == 'clickable':
             return WebDriverWait(self.driver, 10).until(
                 expected_conditions.element_to_be_clickable(locator))
+                # self.click_exceptions(*locator))
         elif wait_type == 'text_present':
             return WebDriverWait(self.driver, 10).until(
                 expected_conditions.text_to_be_present_in_element(locator, text))
@@ -112,12 +128,8 @@ class BasePage:
                 return text
             elif step["action"] == "finds":
                 return self.do_finds(By.XPATH, locator)
-            # elif step["action"] == "return":
-            #     page = step.get('page', 'self')
-            #     return self.navigate(page)
             elif step["action"] == "turn":
-                # page = step.get('page', 'self')
                 page = step.get('page')
                 return page
-            elif step["action"] == "sleep":
-                time.sleep(2)
+            elif step["action"] == "scroll":
+                self.do_scroll_to_bottom()

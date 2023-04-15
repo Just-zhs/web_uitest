@@ -20,8 +20,9 @@ class BasePage:
         if driver is None:
             self.driver = webdriver.Chrome()
             self.driver.maximize_window()
-            self.driver.implicitly_wait(10)
+            self.driver.implicitly_wait(20)
             self.driver.get(self._BASE_URL)
+            # self.driver.get(url)
         else:
             self.driver = driver
 
@@ -65,17 +66,17 @@ class BasePage:
 
     def wait(self, locator: tuple, wait_type='', text=''):
         if wait_type == '':
-            return WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located(locator))
+            return WebDriverWait(self.driver, 20).until(expected_conditions.visibility_of_element_located(locator))
         elif wait_type == 'clickable':
-            return WebDriverWait(self.driver, 10).until(
+            return WebDriverWait(self.driver, 20).until(
                 expected_conditions.element_to_be_clickable(locator))
                 # self.click_exceptions(*locator))
         elif wait_type == 'text_present':
-            return WebDriverWait(self.driver, 10).until(
+            return WebDriverWait(self.driver, 20).until(
                 expected_conditions.text_to_be_present_in_element(locator, text))
 
     def wait_until_not(self, locator: tuple, wait_type='', text=''):
-        return WebDriverWait(self.driver, 10).until_not(expected_conditions.visibility_of_element_located(locator))
+        return WebDriverWait(self.driver, 20).until_not(expected_conditions.visibility_of_element_located(locator))
 
     def do_scroll_to_bottom(self):
         self.driver.execute_script('window.scrollTo(0,document.body.scrollHeight)')

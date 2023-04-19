@@ -8,9 +8,10 @@ from webframe.utils.log_utils import logger
 class PageManager:
     _current_page = ''
     __instance = None
+
     # _base = BasePage()
 
-    def __init__(self, path='../page_objects'):
+    def __init__(self, url=None, path='../page_objects'):
         file_list = os.listdir(path)
         yaml_files = [file for file in file_list if file.endswith('.yaml')]
         self.graphic = {}
@@ -23,7 +24,7 @@ class PageManager:
             self.graphic[filename] = data['adjacency']
             self.page_to_yaml[filename] = yaml_path
         # todo: 不知道是不是该把这个初始化放在init函数里，放在外面pytest无法初始化
-        self._base = BasePage()
+        self._base = BasePage(url)
         # {'goods_category_page': [None], 'goods_grounding_page': ['goods_list_page'], 'goods_list_page': [None],
         #  'index_page': ['goods_category_page', 'goods_grounding_page'], 'login_page': ['index_page']}
         # {'goods_category_page': '../page_objects/goods_category_page.yaml',

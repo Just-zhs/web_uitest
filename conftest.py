@@ -3,6 +3,8 @@ from typing import List
 
 import pytest
 
+from webframe.utils.page_manager import PageManager
+
 
 def pytest_collection_modifyitems(
         session: "Session", config: "Config", items: List["Item"]
@@ -20,15 +22,14 @@ def pytest_addoption(parser: "Parser", pluginmanager: "PytestPluginManager") -> 
                       )
 
 
-# @pytest.fixture(scope='session',autouse=True)
-# # @pytest.fixture()
-# def cmdoption(request):
-#     myenv = request.config.getoption("--env", default='test')
-#     if myenv == 'test':
-#         test_url: str = "https://litemall.hogwarts.ceshiren.com/"
-#     elif myenv == 'dev':
-#         test_url: str = "https://www.baidu.com/"
-#     # print(test_url)
-#     return test_url
-
-
+@pytest.fixture(autouse=True)
+def driver(request):
+    # todo:不知道这个地方是否还有优化空间，每次执行获取一次myenv感觉有损耗
+    myenv = request.config.getoption("--env", default='test')
+    if myenv == 'test':
+        test_url: str = "https://litemall.hogwarts.ceshiren.com/"
+    elif myenv == 'dev':
+        test_url: str = "https://www.baidu.com/"
+    page = PageManager(test_url)
+    yield page
+    page.quit()

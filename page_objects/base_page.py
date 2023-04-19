@@ -13,18 +13,14 @@ from webframe.utils.log_utils import logger
 
 
 class BasePage:
-    _BASE_URL = "https://litemall.hogwarts.ceshiren.com/"
-    _page = ''
 
-    def __init__(self, driver: WebDriver = None):
+    def __init__(self, url, driver: WebDriver = None):
         if driver is None:
             self.driver = webdriver.Chrome()
             self.driver.maximize_window()
             self.driver.implicitly_wait(20)
-            self.driver.get(self._BASE_URL)
-            # self.driver.get(url)
-        else:
-            self.driver = driver
+            self.driver.get(url)
+
 
     @black_wrapper
     def do_find(self, by, locator=None):
@@ -70,7 +66,7 @@ class BasePage:
         elif wait_type == 'clickable':
             return WebDriverWait(self.driver, 20).until(
                 expected_conditions.element_to_be_clickable(locator))
-                # self.click_exceptions(*locator))
+            # self.click_exceptions(*locator))
         elif wait_type == 'text_present':
             return WebDriverWait(self.driver, 20).until(
                 expected_conditions.text_to_be_present_in_element(locator, text))

@@ -2,6 +2,7 @@
 from typing import List
 
 import pytest
+import yaml
 
 from webframe.utils.page_manager import PageManager
 
@@ -21,15 +22,21 @@ def pytest_addoption(parser: "Parser", pluginmanager: "PytestPluginManager") -> 
                       help='set your run env'
                       )
 
+@pytest.fixture(scope='session',autouse=True)
+def get_env(request):
+    myenv = request.config.getoption("--env", default='test')
+    with open('test_data/config.yaml', encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    # if myenv == 'test':
+    #     test_url: str = "https://litemall.hogwarts.ceshiren.com/"
+    # elif myenv == 'dev':
+    #     test_url: str = "https://www.baidu.com/"
+    test_url = data[myenv]
+    return test_url
 
 @pytest.fixture(autouse=True)
-def driver(request):
-    # todo:不知道这个地方是否还有优化空间，每次执行获取一次myenv感觉有损耗
-    myenv = request.config.getoption("--env", default='test')
-    if myenv == 'test':
-        test_url: str = "https://litemall.hogwarts.ceshiren.com/"
-    elif myenv == 'dev':
-        test_url: str = "https://www.baidu.com/"
-    page = PageManager(test_url)
+def driver(get_env):
+    # done:不知道这个地方是否还有优化空间，每次执行获取一次myenv感觉有损耗
+    page = PageManager(get_env)
     yield page
     page.quit()

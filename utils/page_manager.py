@@ -11,7 +11,7 @@ class PageManager:
 
     # _base = BasePage()
 
-    def __init__(self, url=None, path='../page_objects'):
+    def __init__(self, url=None, path='page_objects'):
         file_list = os.listdir(path)
         yaml_files = [file for file in file_list if file.endswith('.yaml')]
         self.graphic = {}

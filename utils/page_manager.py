@@ -13,13 +13,14 @@ class PageManager:
 
     def __init__(self, url=None, path='page_objects'):
         file_list = os.listdir(path)
-        yaml_files = [file for file in file_list if file.endswith('.yaml')]
+        yaml_files = [file for file in file_list if file.endswith('page.yaml')]
         self.graphic = {}
         self.page_to_yaml = {}
         for yaml_file in yaml_files:
             yaml_path = path + '/' + yaml_file
             with open(yaml_path, encoding="utf-8") as f:
                 data = yaml.safe_load(f)
+            print(data)
             filename = yaml_file.split('.')[0]
             self.graphic[filename] = data['adjacency']
             self.page_to_yaml[filename] = yaml_path
